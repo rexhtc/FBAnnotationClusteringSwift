@@ -110,8 +110,8 @@ public class FBClusteringManager {
 					clusteredAnnotations += annotations
 				default:
 					if doNotClustering {
-            					clusteredAnnotations += annotations
-          				} else {
+						clusteredAnnotations += annotations
+					} else {
 						let coordinate = CLLocationCoordinate2D(
 							latitude: CLLocationDegrees(totalLatitude)/CLLocationDegrees(count),
 							longitude: CLLocationDegrees(totalLongitude)/CLLocationDegrees(count)

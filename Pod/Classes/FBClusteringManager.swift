@@ -64,7 +64,7 @@ public class FBClusteringManager {
 		return annotations
 	}
 
-    public func clusteredAnnotations(withinMapRect rect:MKMapRect, zoomScale: Double) -> [MKAnnotation] {
+    public func clusteredAnnotations(withinMapRect rect:MKMapRect, zoomScale: Double, doNotClustering: Bool = false) -> [MKAnnotation] {
         guard !zoomScale.isInfinite else { return [] }
         
         var cellSize = ZoomLevel(MKZoomScale(zoomScale)).cellSize()
@@ -109,14 +109,18 @@ public class FBClusteringManager {
 				case 1:
 					clusteredAnnotations += annotations
 				default:
-					let coordinate = CLLocationCoordinate2D(
-						latitude: CLLocationDegrees(totalLatitude)/CLLocationDegrees(count),
-						longitude: CLLocationDegrees(totalLongitude)/CLLocationDegrees(count)
-					)
-					let cluster = FBAnnotationCluster()
-					cluster.coordinate = coordinate
-					cluster.annotations = annotations
-					clusteredAnnotations.append(cluster)
+					if doNotClustering {
+            					clusteredAnnotations += annotations
+          				} else {
+						let coordinate = CLLocationCoordinate2D(
+							latitude: CLLocationDegrees(totalLatitude)/CLLocationDegrees(count),
+							longitude: CLLocationDegrees(totalLongitude)/CLLocationDegrees(count)
+						)
+						let cluster = FBAnnotationCluster()
+						cluster.coordinate = coordinate
+						cluster.annotations = annotations
+						clusteredAnnotations.append(cluster)
+					}
 				}
             }
         }
